@@ -1,6 +1,9 @@
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile0`, function (sprite, location) {
-    tiles.placeOnTile(mySprite, tiles.getTileLocation(current_col, current_row))
+    info.changeLifeBy(-1)
 })
+function lvl_3 () {
+    tiles.setTilemap(tilemap`level3`)
+}
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     if (jump < 1) {
         mySprite.vy = -70
@@ -71,10 +74,12 @@ controller.right.onEvent(ControllerButtonEvent.Pressed, function () {
         `)
 })
 function lvl2 () {
-	
+    tiles.setTilemap(tilemap`level2`)
+    tiles.placeOnTile(mySprite, tiles.getTileLocation(0, 13))
 }
-let current_col = 0
-let current_row = 0
+scene.onOverlapTile(SpriteKind.Player, sprites.dungeon.chestOpen, function (sprite, location) {
+    lvl_3()
+})
 let jump = 0
 let mySprite: Sprite = null
 mySprite = sprites.create(img`
@@ -108,8 +113,6 @@ scene.cameraFollowSprite(mySprite)
 jump = 0
 controller.moveSprite(mySprite, 100, 0)
 mySprite.ay = 120
-current_row = 17
-current_col = 0
 scene.setBackgroundImage(img`
     eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
     eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
@@ -232,6 +235,7 @@ scene.setBackgroundImage(img`
     2222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222
     2222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222
     `)
+tiles.placeOnTile(mySprite, tiles.getTileLocation(0, 17))
 forever(function () {
     if (mySprite.isHittingTile(CollisionDirection.Bottom)) {
         jump = 0
